@@ -15,9 +15,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.deepPurple, // Change background color
+          foregroundColor: Colors.white, // Change text/icon color
+          elevation: 4.0, // Add shadow effect to separate from background
+        ),
       ),
       onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: '/',  // Start with the main page
+      initialRoute: '/', // Start with the main page
     );
   }
 }
