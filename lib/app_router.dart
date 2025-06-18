@@ -6,6 +6,7 @@ import 'register_page.dart';
 import 'content_page.dart';
 import 'organizations_page.dart';
 import 'organization_detail_page.dart';
+import 'profile_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -25,6 +26,8 @@ class AppRouter {
       case '/organization-detail':
         return MaterialPageRoute(
             builder: (_) => const OrganizationDetailPage(), settings: settings);
+      case '/profile':
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

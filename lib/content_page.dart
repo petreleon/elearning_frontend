@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ContentPage extends StatelessWidget {
   const ContentPage({super.key});
@@ -13,17 +14,6 @@ class ContentPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () => _showUserMenu(context),
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              // Navigate back to welcome page and clear navigation stack
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/',
-                (route) => false,
-              );
-            },
           ),
         ],
       ),
@@ -41,48 +31,23 @@ class ContentPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: [
-                  _buildCourseCard(
-                    'Mathematics',
-                    Icons.calculate,
-                    Colors.blue,
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200, // max width per square
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1, // makes squares
+                ),
+                itemCount: dashboardItems.length,
+                itemBuilder: (context, index) {
+                  final item = dashboardItems[index];
+                  return _buildCourseCard(
+                    item.title,
+                    item.icon,
+                    item.color,
                     context,
-                  ),
-                  _buildCourseCard(
-                    'Science',
-                    Icons.science,
-                    Colors.green,
-                    context,
-                  ),
-                  _buildCourseCard(
-                    'History',
-                    Icons.history_edu,
-                    Colors.orange,
-                    context,
-                  ),
-                  _buildCourseCard(
-                    'Literature',
-                    Icons.book,
-                    Colors.red,
-                    context,
-                  ),
-                  _buildCourseCard(
-                    'Art',
-                    Icons.palette,
-                    Colors.purple,
-                    context,
-                  ),
-                  _buildCourseCard(
-                    'Music',
-                    Icons.music_note,
-                    Colors.teal,
-                    context,
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ],
@@ -94,9 +59,10 @@ class ContentPage extends StatelessWidget {
   void _showUserMenu(BuildContext context) {
     showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(1000, 100, 0, 0),
+      position: const RelativeRect.fromLTRB(1000, 100, 0, 0),
       items: [
-        PopupMenuItem(
+        const PopupMenuItem(
+          value: 'organizations',
           child: Row(
             children: [
               Icon(Icons.business, size: 20),
@@ -104,9 +70,9 @@ class ContentPage extends StatelessWidget {
               Text('Organizations'),
             ],
           ),
-          value: 'organizations',
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
+          value: 'profile',
           child: Row(
             children: [
               Icon(Icons.person, size: 20),
@@ -114,16 +80,13 @@ class ContentPage extends StatelessWidget {
               Text('Profile'),
             ],
           ),
-          value: 'profile',
         ),
       ],
     ).then((value) {
       if (value == 'organizations') {
         Navigator.pushNamed(context, '/organizations');
       } else if (value == 'profile') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile page coming soon')),
-        );
+        Navigator.pushNamed(context, '/profile');
       }
     });
   }
@@ -176,3 +139,20 @@ class ContentPage extends StatelessWidget {
     );
   }
 }
+
+class DashboardItem {
+  final String title;
+  final IconData icon;
+  final Color color;
+  final int weight;
+  DashboardItem(this.title, this.icon, this.color, this.weight);
+}
+
+final List<DashboardItem> dashboardItems = [
+  DashboardItem('Mathematics', Icons.calculate, Colors.blue, 2),
+  DashboardItem('Science', Icons.science, Colors.green, 1),
+  DashboardItem('History', Icons.history_edu, Colors.orange, 1),
+  DashboardItem('Literature', Icons.book, Colors.red, 2),
+  DashboardItem('Art', Icons.palette, Colors.purple, 1),
+  DashboardItem('Music', Icons.music_note, Colors.teal, 1),
+];
