@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models.dart';
 import 'course_card.dart';
+import 'mock_data.dart';
 
 class OrganizationDetailPage extends StatefulWidget {
   const OrganizationDetailPage({super.key});
@@ -16,60 +17,8 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
   final List<String> levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
   List<Course> getCourses(String organizationId) {
-    // Mock data - in real app, this would fetch from API based on organization
-    return [
-      Course(
-        id: '1',
-        title: 'Introduction to Programming',
-        description:
-            'Learn the fundamentals of programming with hands-on projects',
-        instructor: 'Dr. Sarah Johnson',
-        duration: const Duration(hours: 40),
-        level: 'Beginner',
-        rating: 4.8,
-        enrolledStudents: 1250,
-      ),
-      Course(
-        id: '2',
-        title: 'Advanced Data Structures',
-        description: 'Master complex data structures and algorithms',
-        instructor: 'Prof. Michael Chen',
-        duration: const Duration(hours: 60),
-        level: 'Advanced',
-        rating: 4.9,
-        enrolledStudents: 890,
-      ),
-      Course(
-        id: '3',
-        title: 'Web Development Fundamentals',
-        description: 'Build modern web applications from scratch',
-        instructor: 'Jessica Martinez',
-        duration: const Duration(hours: 50),
-        level: 'Intermediate',
-        rating: 4.7,
-        enrolledStudents: 2100,
-      ),
-      Course(
-        id: '4',
-        title: 'Mobile App Development',
-        description: 'Create cross-platform mobile applications',
-        instructor: 'David Kim',
-        duration: const Duration(hours: 45),
-        level: 'Intermediate',
-        rating: 4.6,
-        enrolledStudents: 1680,
-      ),
-      Course(
-        id: '5',
-        title: 'Machine Learning Basics',
-        description: 'Introduction to AI and machine learning concepts',
-        instructor: 'Dr. Emily Watson',
-        duration: const Duration(hours: 35),
-        level: 'Beginner',
-        rating: 4.8,
-        enrolledStudents: 950,
-      ),
-    ];
+    // In a real app, filter by organizationId
+    return mockCourses;
   }
 
   List<Course> get filteredCourses {
