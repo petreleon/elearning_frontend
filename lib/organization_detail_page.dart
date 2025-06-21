@@ -17,8 +17,9 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
   final List<String> levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
   List<Course> getCourses(String organizationId) {
-    // In a real app, filter by organizationId
-    return mockCourses;
+    return mockCourses
+        .where((course) => course.organizationId == organizationId)
+        .toList();
   }
 
   List<Course> get filteredCourses {
