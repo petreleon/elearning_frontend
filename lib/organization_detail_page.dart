@@ -333,9 +333,9 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
 
             // Courses List - Remove Expanded and use shrinkWrap
             filteredCourses.isEmpty
-                ? SizedBox(
+                ? const SizedBox(
                     height: 200,
-                    child: const Center(
+                    child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

@@ -1,17 +1,48 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  final List<List<Color>> _gradients = [
+    [Colors.deepPurple, Colors.purple],
+    [Colors.blue, Colors.deepPurple],
+    [Colors.pink, Colors.orange],
+    [Colors.teal, Colors.indigo],
+    [Colors.deepPurple, Colors.teal],
+  ];
+  int _currentGradient = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startGradientAnimation();
+  }
+
+  void _startGradientAnimation() {
+    Timer.periodic(const Duration(seconds: 6), (timer) {
+      setState(() {
+        _currentGradient = (_currentGradient + 1) % _gradients.length;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
+      body: AnimatedContainer(
+        duration: const Duration(seconds: 5),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.deepPurple, Colors.purple],
+            colors: _gradients[_currentGradient],
           ),
         ),
         child: SafeArea(
