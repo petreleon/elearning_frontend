@@ -18,6 +18,7 @@ class Organization {
 
 class Course {
   final String id;
+  final String organizationId;
   final String title;
   final String description;
   final String instructor;
@@ -28,6 +29,7 @@ class Course {
 
   Course({
     required this.id,
+    required this.organizationId,
     required this.title,
     required this.description,
     required this.instructor,

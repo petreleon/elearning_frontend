@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'models.dart';
+import 'mock_data.dart';
 
 class OrganizationsPage extends StatefulWidget {
   const OrganizationsPage({super.key});
@@ -22,57 +23,7 @@ class _OrganizationsPageState extends State<OrganizationsPage> {
     'Science'
   ];
 
-  final List<Organization> allOrganizations = [
-    Organization(
-      id: '1',
-      name: 'Tech Academy',
-      description: 'Leading provider of technology courses and certifications',
-      imageUrl: 'https://via.placeholder.com/150',
-      courseCount: 45,
-      categories: ['Technology'],
-    ),
-    Organization(
-      id: '2',
-      name: 'Business Institute',
-      description: 'Professional business training and development programs',
-      imageUrl: 'https://via.placeholder.com/150',
-      courseCount: 32,
-      categories: ['Business'],
-    ),
-    Organization(
-      id: '3',
-      name: 'Creative Arts Center',
-      description:
-          'Unleash your creativity with our comprehensive arts programs',
-      imageUrl: 'https://via.placeholder.com/150',
-      courseCount: 28,
-      categories: ['Arts'],
-    ),
-    Organization(
-      id: '4',
-      name: 'Medical Training Hub',
-      description: 'Advanced medical education and healthcare training',
-      imageUrl: 'https://via.placeholder.com/150',
-      courseCount: 38,
-      categories: ['Healthcare'],
-    ),
-    Organization(
-      id: '5',
-      name: 'Science Research Academy',
-      description: 'Cutting-edge scientific research and education programs',
-      imageUrl: 'https://via.placeholder.com/150',
-      courseCount: 41,
-      categories: ['Science'],
-    ),
-    Organization(
-      id: '6',
-      name: 'Global Education Network',
-      description: 'International education standards and multilingual courses',
-      imageUrl: 'https://via.placeholder.com/150',
-      courseCount: 67,
-      categories: ['Education', 'Technology'],
-    ),
-  ];
+  final List<Organization> allOrganizations = mockOrganizations;
 
   List<Organization> get filteredOrganizations {
     return allOrganizations.where((org) {

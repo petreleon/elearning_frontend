@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models.dart';
+import 'course_card.dart';
+import 'mock_data.dart';
 
 class OrganizationDetailPage extends StatefulWidget {
   const OrganizationDetailPage({super.key});
@@ -15,60 +17,9 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
   final List<String> levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
   List<Course> getCourses(String organizationId) {
-    // Mock data - in real app, this would fetch from API based on organization
-    return [
-      Course(
-        id: '1',
-        title: 'Introduction to Programming',
-        description:
-            'Learn the fundamentals of programming with hands-on projects',
-        instructor: 'Dr. Sarah Johnson',
-        duration: const Duration(hours: 40),
-        level: 'Beginner',
-        rating: 4.8,
-        enrolledStudents: 1250,
-      ),
-      Course(
-        id: '2',
-        title: 'Advanced Data Structures',
-        description: 'Master complex data structures and algorithms',
-        instructor: 'Prof. Michael Chen',
-        duration: const Duration(hours: 60),
-        level: 'Advanced',
-        rating: 4.9,
-        enrolledStudents: 890,
-      ),
-      Course(
-        id: '3',
-        title: 'Web Development Fundamentals',
-        description: 'Build modern web applications from scratch',
-        instructor: 'Jessica Martinez',
-        duration: const Duration(hours: 50),
-        level: 'Intermediate',
-        rating: 4.7,
-        enrolledStudents: 2100,
-      ),
-      Course(
-        id: '4',
-        title: 'Mobile App Development',
-        description: 'Create cross-platform mobile applications',
-        instructor: 'David Kim',
-        duration: const Duration(hours: 45),
-        level: 'Intermediate',
-        rating: 4.6,
-        enrolledStudents: 1680,
-      ),
-      Course(
-        id: '5',
-        title: 'Machine Learning Basics',
-        description: 'Introduction to AI and machine learning concepts',
-        instructor: 'Dr. Emily Watson',
-        duration: const Duration(hours: 35),
-        level: 'Beginner',
-        rating: 4.8,
-        enrolledStudents: 950,
-      ),
-    ];
+    return mockCourses
+        .where((course) => course.organizationId == organizationId)
+        .toList();
   }
 
   List<Course> get filteredCourses {
@@ -356,140 +307,12 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
                     itemCount: filteredCourses.length,
                     itemBuilder: (context, index) {
                       final course = filteredCourses[index];
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      course.title,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: _getLevelColor(course.level),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Text(
-                                      course.level,
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                course.description,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.person,
-                                    size: 16,
-                                    color: Colors.grey[600],
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    course.instructor,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Icon(
-                                    Icons.access_time,
-                                    size: 16,
-                                    color: Colors.grey[600],
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    '${course.duration.inHours}h',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.star,
-                                        size: 16,
-                                        color: Colors.amber,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        course.rating.toString(),
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Text(
-                                    '${course.enrolledStudents} students',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                      return CourseCard(course: course);
                     },
                   ),
           ],
         ),
       ),
     );
-  }
-
-  Color _getLevelColor(String level) {
-    switch (level) {
-      case 'Beginner':
-        return Colors.green;
-      case 'Intermediate':
-        return Colors.orange;
-      case 'Advanced':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
   }
 }
