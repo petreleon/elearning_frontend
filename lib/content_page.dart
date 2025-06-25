@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'mock_data.dart';
+import 'models.dart';
+import 'last_visited_course.dart';
+import 'courses_you_may_like.dart';
 
 class ContentPage extends StatelessWidget {
   const ContentPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // For demonstration, pick the first course as last visited
+    final lastVisited = mockCourses.isNotEmpty ? mockCourses.first : null;
+    // For demonstration, recommend all courses except the last visited
+    final recommended =
+        mockCourses.length > 1 ? mockCourses.sublist(1) : <Course>[];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Learning Dashboard'),
@@ -18,38 +28,23 @@ class ContentPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Welcome to your learning dashboard!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200, // max width per square
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 1, // makes squares
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Welcome to your learning dashboard!',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                itemCount: dashboardItems.length,
-                itemBuilder: (context, index) {
-                  final item = dashboardItems[index];
-                  return _buildCourseCard(
-                    item.title,
-                    item.icon,
-                    item.color,
-                    context,
-                  );
-                },
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              LastVisitedCourse(course: lastVisited),
+              const SizedBox(height: 32),
+              CoursesYouMayLike(courses: recommended),
+            ],
+          ),
         ),
       ),
     );
@@ -89,69 +84,4 @@ class ContentPage extends StatelessWidget {
       }
     });
   }
-
-  Widget _buildCourseCard(
-      String title, IconData icon, Color color, BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: InkWell(
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('$title course selected')),
-          );
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [color.withOpacity(0.7), color],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 50,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
-
-class DashboardItem {
-  final String title;
-  final IconData icon;
-  final Color color;
-  final int weight;
-  DashboardItem(this.title, this.icon, this.color, this.weight);
-}
-
-final List<DashboardItem> dashboardItems = [
-  DashboardItem('Mathematics', Icons.calculate, Colors.blue, 2),
-  DashboardItem('Science', Icons.science, Colors.green, 1),
-  DashboardItem('History', Icons.history_edu, Colors.orange, 1),
-  DashboardItem('Literature', Icons.book, Colors.red, 2),
-  DashboardItem('Art', Icons.palette, Colors.purple, 1),
-  DashboardItem('Music', Icons.music_note, Colors.teal, 1),
-];
