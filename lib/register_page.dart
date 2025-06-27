@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'user.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -23,11 +25,22 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _handleRegister() {
+  Future<void> _handleRegister() async {
     if (_formKey.currentState!.validate()) {
-      // Simple validation - in a real app, you'd register with a server
       if (_passwordController.text == _confirmPasswordController.text) {
-        // Navigate to content page and clear navigation stack
+        var box = Hive.box<User>('users');
+        // Check if user already exists
+        if (box.values
+            .any((user) => user.username == _usernameController.text)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Username already exists')),
+          );
+          return;
+        }
+        await box.add(User(
+          username: _usernameController.text,
+          password: _passwordController.text,
+        ));
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/content',

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,16 +21,24 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      // Simple validation - in a real app, you'd authenticate with a server
-      if (_usernameController.text.isNotEmpty &&
-          _passwordController.text.isNotEmpty) {
-        // Navigate to content page and clear navigation stack
+      var box = Hive.box<User>('users');
+      final username = _usernameController.text;
+      final password = _passwordController.text;
+      final user = box.values.firstWhere(
+        (user) => user.username == username && user.password == password,
+        orElse: () => User(username: '', password: ''),
+      );
+      if (user.username.isNotEmpty) {
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/content',
           (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invalid username or password')),
         );
       }
     }
