@@ -1,7 +1,37 @@
 import 'package:flutter/material.dart';
+import 'session_manager.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String? username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final user = await SessionManager.getCurrentUser();
+    setState(() {
+      username = user;
+    });
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    await SessionManager.logoutCurrentUser();
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/',
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +50,9 @@ class ProfilePage extends StatelessWidget {
               child: Icon(Icons.person, size: 48, color: Colors.white),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Username',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(
+              username ?? 'Username',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             const Text(
@@ -30,14 +60,13 @@ class ProfilePage extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 32),
-            // Coins owned
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.monetization_on, color: Colors.amber[700], size: 28),
                 const SizedBox(width: 8),
                 const Text(
-                  '1200 Coins', // You can later make this dynamic
+                  '1200 Coins',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -81,11 +110,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                 );
                 if (confirmed == true) {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/',
-                    (route) => false,
-                  );
+                  await _logout(context);
                 }
               },
             ),

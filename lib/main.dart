@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'app_router.dart';
 import 'user.dart';
+import 'session_manager.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print(await getApplicationDocumentsDirectory());
+  // await HiveHelper
+  //     .deleteAllData(); // Delete all Hive data on startup (for debug/dev only)
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
   await Hive.openBox<User>('users');
-  runApp(const MyApp());
+  final currentUser = await SessionManager.getCurrentUser();
+  runApp(MyApp(currentUser: currentUser));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String? currentUser;
+  const MyApp({super.key, this.currentUser});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: '/', // Start with the main page
+      initialRoute:
+          currentUser != null ? '/content' : '/', // Start with the main page
     );
   }
 }

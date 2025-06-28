@@ -3,9 +3,30 @@ import 'mock_data.dart';
 import 'models.dart';
 import 'last_visited_course.dart';
 import 'courses_you_may_like.dart';
+import 'session_manager.dart';
 
-class ContentPage extends StatelessWidget {
+class ContentPage extends StatefulWidget {
   const ContentPage({super.key});
+
+  @override
+  State<ContentPage> createState() => _ContentPageState();
+}
+
+class _ContentPageState extends State<ContentPage> {
+  String? username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final user = await SessionManager.getCurrentUser();
+    setState(() {
+      username = user;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +38,8 @@ class ContentPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Learning Dashboard'),
+        title: Text(
+            username != null ? 'Welcome, $username!' : 'Learning Dashboard'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

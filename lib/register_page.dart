@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'user.dart';
+import 'session_manager.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -39,8 +40,10 @@ class _RegisterPageState extends State<RegisterPage> {
         }
         await box.add(User(
           username: _usernameController.text,
+          email: _emailController.text,
           password: _passwordController.text,
         ));
+        await SessionManager.storeCurrentUser(_usernameController.text);
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/content',
