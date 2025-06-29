@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'session_manager.dart';
+import 'user.dart';
+import 'package:hive/hive.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -10,18 +12,29 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String? username;
+  String? email;
 
   @override
   void initState() {
     super.initState();
-    _loadUsername();
+    _loadUsernameAndEmail();
   }
 
-  Future<void> _loadUsername() async {
+  Future<void> _loadUsernameAndEmail() async {
     final user = await SessionManager.getCurrentUser();
     setState(() {
       username = user;
     });
+    if (user != null) {
+      var box = await Hive.openBox<User>('users');
+      final userObj = box.values.firstWhere(
+        (u) => u.username == user,
+        orElse: () => User(username: '', password: '', email: ''),
+      );
+      setState(() {
+        email = userObj.email.isNotEmpty ? userObj.email : null;
+      });
+    }
   }
 
   Future<void> _logout(BuildContext context) async {
@@ -55,9 +68,9 @@ class _ProfilePageState extends State<ProfilePage> {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'user@email.com',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              email ?? 'user@email.com',
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 32),
             Row(
