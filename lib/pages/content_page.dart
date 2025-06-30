@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'mock_data.dart';
-import 'models.dart';
-import 'last_visited_course.dart';
-import 'courses_you_may_like.dart';
-import 'session_manager.dart';
+import '../mock_data.dart';
+import '../models.dart';
+import '../widgets/last_visited_course.dart';
+import '../widgets/courses_you_may_like.dart';
+import '../session_manager.dart';
 
 class ContentPage extends StatefulWidget {
   const ContentPage({super.key});

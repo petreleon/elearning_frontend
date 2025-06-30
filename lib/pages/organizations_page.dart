@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'models.dart';
-import 'mock_data.dart';
+import '../models.dart';
+import '../mock_data.dart';
 
 class OrganizationsPage extends StatefulWidget {
   const OrganizationsPage({super.key});
@@ -87,8 +87,10 @@ class _OrganizationsPageState extends State<OrganizationsPage> {
                       });
                     },
                     backgroundColor: Colors.grey[200],
-                    selectedColor:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    selectedColor: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withValues(alpha: 0.2),
                   ),
                 );
               },

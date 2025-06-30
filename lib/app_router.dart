@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'welcome_page.dart';
-import 'main_page.dart';
-import 'login_page.dart';
-import 'register_page.dart';
-import 'content_page.dart';
-import 'organizations_page.dart';
-import 'organization_detail_page.dart';
-import 'profile_page.dart';
+import 'pages/welcome_page.dart';
+import 'pages/main_page.dart';
+import 'pages/login_page.dart';
+import 'pages/register_page.dart';
+import 'pages/content_page.dart';
+import 'pages/organizations_page.dart';
+import 'pages/organization_detail_page.dart';
+import 'pages/profile_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {

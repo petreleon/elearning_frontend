@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'session_manager.dart';
-import 'user.dart';
+import '../session_manager.dart';
+import '../user.dart';
 import 'package:hive/hive.dart';
 
 class ProfilePage extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'models.dart';
-import 'course_card.dart';
-import 'mock_data.dart';
+import '../models.dart';
+import '../widgets/course_card.dart';
+import '../mock_data.dart';
 
 class OrganizationDetailPage extends StatefulWidget {
   const OrganizationDetailPage({super.key});

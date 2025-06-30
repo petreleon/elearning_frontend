@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'models.dart';
+import '../models.dart';
 import 'course_card.dart';
 
 class CoursesYouMayLike extends StatelessWidget {

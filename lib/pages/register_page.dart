@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'user.dart';
-import 'session_manager.dart';
+import '../user.dart';
+import '../session_manager.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

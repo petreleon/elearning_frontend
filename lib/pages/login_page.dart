@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'user.dart';
-import 'session_manager.dart';
+import '../user.dart';
+import '../session_manager.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -34,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
         orElse: () => User(username: '', password: '', email: ''),
       );
       if (user.username.isNotEmpty) {
-        await SessionManager.storeCurrentUser(user.username); // Always store the username, even if login was by email
+        await SessionManager.storeCurrentUser(user
+            .username); // Always store the username, even if login was by email
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/content',
